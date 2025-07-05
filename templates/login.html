@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Login {% endblock %}
+
+{%block content %}
+<div class="col-md-10 mx-auto col-lg-5 pt-5">
+  <form method="POST" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+  {{ form.hidden_tag() }}
+
+  <div class="form-floating mb-3">
+    {{ form.user_email(class="form-control", id="floatingEmail", placeholder="name@example.com") }}
+    <label for="floatingEmail">{{ form.user_email.label.text }}</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    {{ form.user_password(class="form-control", id="floatingPassword", placeholder="Password") }}
+    <label for="floatingPassword">{{ form.user_password.label.text }}</label>
+  </div>
+
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" name="remember-me" value="remember-me"> Remember me
+    </label>
+  </div>
+
+  {{ form.user_login(class="w-100 btn btn-lg btn-primary", type="submit") }}
+
+  <hr class="my-4">
+  <small class="text-body-secondary">By clicking Log In, you agree to the terms of use.</small>
+</form>
+
+</div>
+
+{% endblock %}

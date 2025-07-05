@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}SignUp {% endblock %}
+
+{% block content %}
+<div class="col-md-10 mx-auto col-lg-5 pt-5">
+  <form method="POST" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+  {{ form.hidden_tag() }}
+
+  <div class="form-floating mb-3">
+    {{ form.email(class="form-control", id="floatingEmail", placeholder="name@example.com") }}
+    <label for="floatingEmail">{{ form.email.label.text }}</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    {{ form.password(class="form-control", id="floatingPassword", placeholder="Password") }}
+    <label for="floatingPassword">{{ form.password.label.text }}</label>
+  </div>
+
+    <div class="form-floating mb-3">
+    {{ form.re_password(class="form-control", id="floatingRePassword", placeholder="Password") }}
+    <label for="floatingRePassword">{{ form.re_password.label.text }}</label>
+  </div>
+
+    {% if form.re_password.errors %}
+  <div class="text-danger">
+    {{ form.re_password.errors[0] }}
+  </div>
+{% endif %}
+
+
+  {{ form.signup(class="w-100 btn btn-lg btn-primary", type="submit") }}
+
+  <hr class="my-4">
+  <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+</form>
+{% endblock %}
+
+
