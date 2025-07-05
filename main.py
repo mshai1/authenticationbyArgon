@@ -3,10 +3,9 @@ from argon2 import PasswordHasher
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Email, EqualTo, Length
-# from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import String, Integer, Float
+from sqlalchemy import String, Integer
 
 
 app = Flask(__name__)
@@ -32,15 +31,17 @@ class Users(db.Model):
 # with app.app_context():
 #     db.create_all()
 
+
 class SignUpForm(FlaskForm):
-    email = StringField("Enter your email address", validators=[InputRequired(), Email()])
+    email = StringField("Enter your email address", validators=[InputRequired(), Email(message="Enter a valid email.")])
     password = PasswordField("Create a password", validators=[InputRequired(), Length(min=8)])
     re_password = PasswordField("Re-enter the password", validators=[InputRequired(),
                                                                      EqualTo('password', message='Password must match')])
     signup = SubmitField("Sign-Up")
 
+
 class LoginInForm(FlaskForm):
-    user_email = StringField("Enter the username or email address", validators=[InputRequired(), Email()])
+    user_email = StringField("Enter your email address", validators=[InputRequired(), Email(message="Enter a valid email.")])
     user_password = PasswordField("Enter your password", validators=[InputRequired()])
     remember_me = SubmitField("Remember me")
     user_login = SubmitField("Login")

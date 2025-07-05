@@ -10,6 +10,11 @@
     {{ form.user_email(class="form-control", id="floatingEmail", placeholder="name@example.com") }}
     <label for="floatingEmail">{{ form.user_email.label.text }}</label>
   </div>
+    {% if form.user_email.errors %}
+  <div class="text-danger">
+    {{ form.user_email.errors[0] }}
+  </div>
+{% endif %}
 
   <div class="form-floating mb-3">
     {{ form.user_password(class="form-control", id="floatingPassword", placeholder="Password") }}
