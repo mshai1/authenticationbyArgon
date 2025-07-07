@@ -72,7 +72,7 @@ def login():
             try:
                 ph.verify(user['password'], raw_password)
                 flash("Login Successful!", "success")
-                return redirect(url_for('landing'))
+                return redirect(url_for('profile'))
             except Exception:
                 flash("Invalid email or password", "danger")
 
@@ -104,9 +104,9 @@ def signup():
 
     return render_template('signup.html', form=form)
 
-@app.route('/landing')
-def landing():
-    return render_template('landing.html')
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
