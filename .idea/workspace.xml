@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23918e58-fe8a-4c25-887f-2968b0ec0f24" name="Changes" comment="added the argon2 hashing to login and signup page, tested using list instead of db(will create the db after the tests)">
-      <change afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
+    <list default="true" id="23918e58-fe8a-4c25-887f-2968b0ec0f24" name="Changes" comment="working on the profile.html which is going to be the landing page after the authentication, also working on the navbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/landing.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,13 +86,32 @@
       <option name="project" value="LOCAL" />
       <updated>1751768093741</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="working on the profile.html which is going to be the landing page after the authentication, also working on the navbar">
+      <option name="closed" value="true" />
+      <created>1751887851659</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1751887851660</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="updated the requirements.txt with the packages required for this project, updated main.py with the endpoints and forms and created the html files to render the forms, working on the database and hashing" />
     <MESSAGE value="fixed the email validator glitch" />
     <MESSAGE value="added the argon2 hashing to login and signup page, tested using list instead of db(will create the db after the tests)" />
-    <option name="LAST_COMMIT_MESSAGE" value="added the argon2 hashing to login and signup page, tested using list instead of db(will create the db after the tests)" />
+    <MESSAGE value="working on the profile.html which is going to be the landing page after the authentication, also working on the navbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on the profile.html which is going to be the landing page after the authentication, also working on the navbar" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

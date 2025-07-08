@@ -35,6 +35,9 @@ class Users(db.Model):
 
 
 class SignUpForm(FlaskForm):
+    full_name = StringField("Enter your full name", validators= [InputRequired()])
+    phone = StringField("Enter your phone number", validators=[InputRequired()])
+    address = StringField("Enter your address", validators=[InputRequired()])
     email = StringField("Enter your email address", validators=[InputRequired(), Email(message="Enter a valid email.")])
     password = PasswordField("Create a password", validators=[InputRequired(), Length(min=8)])
     re_password = PasswordField("Re-enter the password", validators=[InputRequired(),
@@ -71,6 +74,7 @@ def login():
         else:
             try:
                 ph.verify(user['password'], raw_password)
+                session['user_email'] = user_email
                 flash("Login Successful!", "success")
                 return redirect(url_for('profile'))
             except Exception:
@@ -82,6 +86,9 @@ def login():
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
+        signupname = form.full_name.data
+        signupphone = form.phone.data
+        signupaddress = form.address.data
         signupemail = form.email.data
         signuppassword = form.password.data
         print(signupemail)
@@ -95,6 +102,9 @@ def signup():
             hashed_password = ph.hash(signuppassword)
 
             user_list.append({
+                "fullname":signupname,
+                "phone":signupphone,
+                "address":signupaddress,
                 "email": signupemail,
                 "password": hashed_password
             })
@@ -106,7 +116,20 @@ def signup():
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    if 'user_email' not in session:
+        flash("Please log in to access the profile page.", "warning")
+        return redirect(url_for('login'))
+
+    user_email = session['user_email']
+    return render_template('profile.html', user_email=user_email)
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash("You have been logged out.", "info")
+    return redirect(url_for("login"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
