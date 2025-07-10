@@ -28,7 +28,9 @@
   </div>
 
   {{ form.user_login(class="w-100 btn btn-lg btn-primary", type="submit") }}
-
+    <div class="text-center mt-3">
+  <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+</div>
   <hr class="my-4">
   <small class="text-body-secondary">By clicking Log In, you agree to the terms of use.</small>
 </form>

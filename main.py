@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, url_for, redirect, flash
+from flask import Flask, session, render_template, url_for, redirect, flash, request
 from argon2 import PasswordHasher
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -121,7 +121,29 @@ def profile():
         return redirect(url_for('login'))
 
     user_email = session['user_email']
-    return render_template('profile.html', user_email=user_email)
+    user = next((user for user in user_list if user["email"] == user_email), None)
+
+    return render_template('profile.html', user=user)
+
+
+@app.route('/update-profile', methods=['POST'])
+def update_profile():
+    user_email = session.get('user_email')
+    if not user_email:
+        return redirect(url_for('login'))
+
+    user = next((user for user in user_list if user["email"] == user_email), None)
+    if not user:
+        return redirect(url_for('login'))
+
+    # Get updated values from form
+    user["fullname"] = request.form.get('fullname')
+    user["phone"] = request.form.get('phone')
+    user["address"] = request.form.get('address')
+    print(user)
+
+    flash("Profile updated successfully!", "success")
+    return redirect(url_for('profile'))
 
 
 @app.route('/logout')

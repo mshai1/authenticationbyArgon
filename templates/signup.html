@@ -45,6 +45,9 @@
 
 
   {{ form.signup(class="w-100 btn btn-lg btn-primary", type="submit") }}
+    <div class="text-center mt-3">
+  <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+</div>
 
   <hr class="my-4">
   <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
