@@ -1,5 +1,6 @@
 from flask import Flask, session, render_template, url_for, redirect, flash, request
 from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Email, EqualTo, Length
@@ -25,13 +26,17 @@ class Users(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     useremail: Mapped[String] = mapped_column(String(20), unique=True, nullable=False)
     password: Mapped[String] = mapped_column(String(256), nullable=False)
+    fullname: Mapped[String] = mapped_column(String(80), nullable=False)
+    phone: Mapped[Integer] = mapped_column(Integer, nullable=False)
+    address: Mapped[String] = mapped_column(String(80), nullable=False)
+
 
     #Optional, allows searching by user email address
     def __repr__(self):
         return f'<User {self.useremail}>'
 
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 class SignUpForm(FlaskForm):
@@ -66,19 +71,19 @@ def login():
         print(user_email)
         print(raw_password)
 
-        user = next((u for u in user_list if u['email'] == user_email), None)
+        user = Users.query.filter_by(useremail=user_email).first()
 
         if not user:
-            flash("Invalid email or password", "danger")
+            flash("Email not found", "danger")
 
         else:
             try:
-                ph.verify(user['password'], raw_password)
-                session['user_email'] = user_email
+                ph.verify(user.password, raw_password)
+                session['user_email'] = user.useremail
                 flash("Login Successful!", "success")
                 return redirect(url_for('profile'))
-            except Exception:
-                flash("Invalid email or password", "danger")
+            except VerifyMismatchError:
+                flash("Incorrect password", "danger")
 
     return render_template('login.html', form=form)
 
@@ -94,22 +99,23 @@ def signup():
         print(signupemail)
         print(signuppassword)
 
-        existing_user = next((user for user in user_list if user['email'] == signupemail), None)
+        existing_user =  Users.query.filter_by(useremail=signupemail).first()
         if existing_user:
             flash("User already exists. Please try logging in", "danger")
 
         else:
             hashed_password = ph.hash(signuppassword)
 
-            user_list.append({
-                "fullname":signupname,
-                "phone":signupphone,
-                "address":signupaddress,
-                "email": signupemail,
-                "password": hashed_password
-            })
+            new_user = Users(
+                fullname=signupname,
+                phone=signupphone,
+                address=signupaddress,
+                useremail= signupemail,
+                password= hashed_password
+            )
+            db.session.add(new_user)
+            db.session.commit()
             flash("User signed up successfully!", "success")
-            print(user_list)
             return redirect(url_for('login'))
 
     return render_template('signup.html', form=form)
@@ -120,8 +126,7 @@ def profile():
         flash("Please log in to access the profile page.", "warning")
         return redirect(url_for('login'))
 
-    user_email = session['user_email']
-    user = next((user for user in user_list if user["email"] == user_email), None)
+    user = Users.query.filter_by(useremail=session['user_email']).first()
 
     return render_template('profile.html', user=user)
 
@@ -132,15 +137,15 @@ def update_profile():
     if not user_email:
         return redirect(url_for('login'))
 
-    user = next((user for user in user_list if user["email"] == user_email), None)
+    user = Users.query.filter_by(useremail=session['user_email']).first()
     if not user:
         return redirect(url_for('login'))
 
     # Get updated values from form
-    user["fullname"] = request.form.get('fullname')
-    user["phone"] = request.form.get('phone')
-    user["address"] = request.form.get('address')
-    print(user)
+    user.fullname = request.form.get('fullname')
+    user.phone = request.form.get('phone')
+    user.address = request.form.get('address')
+    db.session.commit()
 
     flash("Profile updated successfully!", "success")
     return redirect(url_for('profile'))
